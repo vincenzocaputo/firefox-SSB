@@ -118,7 +118,12 @@ class SSBManager():
         pass
 
     def list_apps(self):
-        pass
+        print("-"*85)
+        print("| {:40s}| {:40s}|".format('Application Name', 'URL'))
+        print("-"*85)
+        for app in self.__app_data.keys():
+            print("| {:40s}| {:40s}|".format(app, self.__app_data[app]['URL']))
+        print("-"*85)
 
 
 if __name__ == '__main__':
@@ -139,21 +144,22 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     action = args.action
-    if action in ('install','uninstall') and args.name is None:
-        logging.error("You must specify a name for the application")
-        parser.print_help()
-        sys.exit()
-    
-    app_name = args.name.pop()
+    if action in ('install','uninstall'):
+        if args.name is None:
+            logging.error("You must specify a name for the application")
+            parser.print_help()
+            sys.exit()
+        app_name = args.name.pop()
 
-    if action in ('uninstall') and args.url is None:
-        logging.error("You must specify a valid URL to the web application")
-        parser.print_help()
-        sys.exit()
-    url = args.url.pop()
+    if action in ('uninstall'):
+        if args.url is None:
+            logging.error("You must specify a valid URL to the web application")
+            parser.print_help()
+            sys.exit()
+        url = args.url.pop()
     
-    
-    icon_path = args.icon
+    if action in ('install'):
+        icon_path = args.icon
 
     debug_level = logging.INFO
     if args.debug:
@@ -163,4 +169,7 @@ if __name__ == '__main__':
     manager = SSBManager()
     if args.action == 'install':
         manager.install_app(app_name, url, icon_path)
+    
+    if args.action == 'list':
+        manager.list_apps()
 
