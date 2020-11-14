@@ -6,6 +6,7 @@ import sys
 import logging
 import argparse
 import json
+import shutil
 
 
 class SSBManager():
@@ -114,8 +115,20 @@ class SSBManager():
 
         logging.info("%s application has been installed correctly!", app_name)
 
+
     def uninstall_app(self, app_name):
-        pass
+        logging.debug("Check if application exists")
+        if app_name in self.__app_data.keys():
+            logging.info("Removing %s file", self.__app_data[app_name]['desktop'])
+            os.remove(self.__app_data[app_name]['desktop'])
+            logging.info("Removing firefox profile")
+            shutil.rmtree(self.__app_data[app_name]['profile'], ignore_errors=True)
+            logging.info("Remove application entry")
+            del self.__app_data[app_name]
+            logging.info("Saving changes")
+            with open(self.APP_JSON_PATH, 'w') as json_file:
+                json.dump(self.__app_data, json_file)
+        logging.error("%s is not installed.")
 
     def list_apps(self):
         print("-"*85)
@@ -151,7 +164,7 @@ if __name__ == '__main__':
             sys.exit()
         app_name = args.name.pop()
 
-    if action in ('uninstall'):
+    if action in ('install'):
         if args.url is None:
             logging.error("You must specify a valid URL to the web application")
             parser.print_help()
@@ -172,4 +185,7 @@ if __name__ == '__main__':
     
     if args.action == 'list':
         manager.list_apps()
+
+    if args.action == 'uninstall':
+        manager.uninstall_app(app_name)
 
