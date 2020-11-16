@@ -177,6 +177,40 @@ class SSBManager():
         print("-"*85)
 
 
+    def edit_app(self, app_name, url=None, icon_path=None):
+        if app_name in self.__app_data.keys():
+            launcher_path = self.__app_data[app_name]['desktop']
+            logger.debug("Saving changes in {!s}".format(launcher_path))
+            if not Path(launcher_path).exists():
+                logger.critical("Desktop file doesn't exists. This should not happen.")
+            
+            config_obj = RawConfigParser()
+            config_obj.optionxform = str
+            config_obj.read(launcher_path)
+            section_name = 'Desktop Entry'
+            
+            print("Saving changes in .  desktop file")
+            if icon_path is not None:
+                logger.debug("Changing the application icon. The new icon path will be {!s}".format(icon_path))
+                config_obj[section_name]['Icon'] = str(icon_path)
+                logger.debug("Adding new icon in app.json file")
+                self.__app_data[app_name]['icon'] = icon_path
+
+            if url is not None:
+                logger.debug("Changing the application URL. The new URL will be {!s}".format(url))
+                profile = self.__app_data[app_name]['profile']
+                config_obj[section_name]['Exec'] = 'firefox --no-remote --profile {0!s} --class {1!s} --ssb {2!s}'.format(profile, app_name, url)
+                logger.debug("Adding new URL in app.json file")
+                self.__app_data[app_name]['URL'] = url
+
+            print("Saving changes in app.json")
+            with open(self.__app_json_location, 'w') as json_file:
+                json.dump(self.__app_data, json_file)
+
+            print("Updating complete!")
+
+
+
 if __name__ == '__main__':
     console = logging.StreamHandler()
     logger.addHandler(console)
@@ -187,7 +221,7 @@ if __name__ == '__main__':
     icon_path = None
 
     parser=argparse.ArgumentParser(description='''Firefox-SSB''', epilog=""".""")
-    parser.add_argument('action', choices=['install','uninstall','list'], help='action to perform')
+    parser.add_argument('action', choices=['install','uninstall','edit','list'], help='action to perform')
     parser.add_argument('-n','--name', type=str, nargs=1, help='name to assign to the web application')
     parser.add_argument('-u','--url', type=str, nargs=1, help='URL pointing to the web application to install')
     parser.add_argument('-i','--icon', type=str, nargs='?',help='path of the icon to associate with the web application')
@@ -195,26 +229,31 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     action = args.action
-    if action in ('install','uninstall'):
+    if action in ('install','uninstall','edit'):
         if args.name is None:
             logger.error("You must specify a name for the application")
             parser.print_help()
             sys.exit()
         app_name = args.name.pop()
 
-    if action in ('install'):
+    if action in ('install','edit'):
         if args.url is None:
             logger.error("You must specify a valid URL to the web application")
             parser.print_help()
             sys.exit()
         url = args.url.pop()
     
-    if action in ('install'):
+    if action in ('install','edit'):
         if args.icon is None:
             print("You haven't provided a valid icon. We will try to find it")
             icon_path = None
         else:
             icon_path = args.icon
+
+    if action in ('edit'):
+        if url is None and icon is None:
+            logger.error("You must specify a new URL or a new icon. Aborting...")
+            sys.exit()
 
     if args.debug:
         debug_level = logging.DEBUG
@@ -231,3 +270,5 @@ if __name__ == '__main__':
     if args.action == 'uninstall':
         manager.uninstall_app(app_name)
 
+    if args.action == 'edit':
+        manager.edit_app(app_name, url, icon_path)
