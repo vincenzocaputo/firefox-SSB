@@ -1,0 +1,13 @@
+[Desktop Entry]
+Comment=
+Exec=firefox --no-remote --profile /home/vincenzo/.firefox-ssb/Telegram --class Telegram --ssb https://web.telegram.org
+Icon=/home/vincenzo/.local/share/icons/ssb/telegram.ico
+Name=Telegram
+NoDisplay=false
+Path[$e]=
+StartupNotify=true
+Terminal=0
+TerminalOptions=
+Type=Application
+StartupWMClass=Telegram
+
