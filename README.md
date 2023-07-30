@@ -1,36 +1,31 @@
-# firefox-SSB
-A simple tool to manage web applications by using the SSB feature of Mozilla Firefox browser.
+![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/527b5865-efb2-46e1-9a6c-941ff8e996f9)
 
-## Background
+This Python tool aims to provide a workaround for the lack of PWAs (Progressive Web Apps) management in Firefox browser. There are already other alternatives to bypass this limitation (such as: https://github.com/filips123/PWAsForFirefox). However, the idea of this project is to avoid relying on add-ons and extensions. 
 
-*What is SSB?*
-SSB (Site-Specific Browser) is a feature that allows to access to a specific web-page avoiding unnecessary functionality usually provided by the web browser ( menus, address bar, toolbars, add-ons etc.).
-Some web browsers, like Google Chrome, has this feature by default. In addition, Google Chrome gives the possibility to create a shortcut to the web-page, in order to realise a stand-alone SSB application for any site.
+**Caveat:** At the moment, Firefox **does not support** PWAs like Chromium-based browser. This tool is not intended to provide full support for PWAs but wants to offer the ability to create standalone launchers to open websites as Site-Specific Browser.
 
-In Mozilla Firefox, the SSB feature is currently an experimental feature.  Furthermore, it has some drawbacks that can make user experience annoying and uncomfortable.
+## How it works
+The tool creates a Firefox profile for each web app. Separate profiles are needed to open web apps in separate windows as standalone applications. The tool create a .desktop file for each web app as launcher.
+Initially, this tool used the Site-Specific Browser (SSB) feature, but Firefox removed it. Now the tool edits some CSS settings in order to avoid unnecessary functionality usually provided by the web browser ( menus, address bar, toolbars, add-ons etc.). 
 
-*Idea*
-This small project aims to give *Linux* users the ability to create stand-alone windows for web application, using Mozilla Firefox.
 
 ## Key Features
+- No Firefox add-on needed
 - Creation of stand-alone launchers for web applications
 - Automatic download of web-page favicon (which will be used as launcher icon)
-- Deep separation of user data between web applications (the other user profiles aren't affected)
+- Deep separation of user data between web applications (your default user profiles aren't affected)
 - Simple management of SSB applications (install/edit/uninstall)
 
 # Installing
 
 ## Requirements
-- Python $>=$ 3.8 *required*
-- Some python libraries
-  - mozprofile *required*
-  - 
-- virtualenv *recommended*
+- Python $>=$ 3.11.4 *required*
+
 
 ## Installation
 1. Create a virtual environment (*recommended*)
 ```
-$ python3.8 -m venv virt
+$ python3.8 -m venv .venv
 ```
 2. Activate the virtual envorinment
 ```
@@ -42,7 +37,7 @@ $ git clone https://github.com/VincenzoCaputo/firefox-SSB
 ```
 4. Install dependencies
 ```
-$ 
+$ pip install -i requirements.txt
 ```
 
 ## User Guide
@@ -51,13 +46,20 @@ You can use Firefox-SSB through CLI. You can see help information using this com
 $ python firefox-ssb.py --help
 ```
 This tool currently provides four possibile operations:
-- install: install a SSB application. You must provide the name of the application, the URL of the associated web page and, optionally, the application icon. 
-For example:
+- install: install a SSB application. You must provide the name of the application, the URL of the associated web page and, optionally, the icon for the web app
+- uninstall: remove a web application. Profile folder, icon and launcher will be removed. (**WARNING**: all the user data used by that application will be removed)
+- list: get the list of installed applications
+- edit: edit the icon of an installed SSB application.
+
+### Install a new web app
 ```
 $ python firefox-ssb.py --name GitHub --url https://github.com/ 
 ```
 Notice that the tool tries to download automatically the favicon of the web page which will be used as application icon. However, the quality of the image may be low. Therefore I suggest you to specify a custom image. 
-- uninstall: remove an installed SSB application. (**WARNING**: all the user data used by that application will be removed)
-- list: list installed SSB application.
-- edit: edit the URL of the icon of an installed SSB application.
-For example:
+
+![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/ed412245-94d2-4744-8d14-0e22d5f0997c)
+
+# Testing
+This tool was tested on Fedora Linux 38 (GNOME 44.3) with Firefox 115.0.2
+
+
