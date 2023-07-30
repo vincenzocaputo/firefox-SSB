@@ -1,4 +1,4 @@
-![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/527b5865-efb2-46e1-9a6c-941ff8e996f9)
+![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/1eab1973-07ba-4d3d-bd7b-6c65a1f1d801)![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/78fdbd75-80be-4fbe-9f99-cd5ba60b7266)
 
 This Python tool aims to provide a workaround for the lack of PWAs (Progressive Web Apps) management in Firefox browser. There are already other alternatives to bypass this limitation (such as: https://github.com/filips123/PWAsForFirefox). However, the idea of this project is to avoid relying on add-ons and extensions. 
 
@@ -57,7 +57,8 @@ $ python firefox-ssb.py --name GitHub --url https://github.com/
 ```
 Notice that the tool tries to download automatically the favicon of the web page which will be used as application icon. However, the quality of the image may be low. Therefore I suggest you to specify a custom image. 
 
-![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/ed412245-94d2-4744-8d14-0e22d5f0997c)
+![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/55aa832f-a69b-41e7-9b91-72bcac3cb33e)
+
 
 # Testing
 This tool was tested on Fedora Linux 38 (GNOME 44.3) with Firefox 115.0.2
