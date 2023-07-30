@@ -1,4 +1,4 @@
-![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/1eab1973-07ba-4d3d-bd7b-6c65a1f1d801)![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/78fdbd75-80be-4fbe-9f99-cd5ba60b7266)
+![immagine](https://github.com/vincenzocaputo/firefox-SSB/assets/32276363/78fdbd75-80be-4fbe-9f99-cd5ba60b7266)
 
 This Python tool aims to provide a workaround for the lack of PWAs (Progressive Web Apps) management in Firefox browser. There are already other alternatives to bypass this limitation (such as: https://github.com/filips123/PWAsForFirefox). However, the idea of this project is to avoid relying on add-ons and extensions. 
 
