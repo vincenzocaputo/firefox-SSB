@@ -1,0 +1,19 @@
+#nav-bar {
+  /* customize this value. */
+  --navbar-margin: -50px;
+
+  margin-top: var(--navbar-margin);
+  margin-bottom: 0;
+  z-index: -100;
+  transition: all 0.3s ease !important;
+  opacity: 0;
+  background-color: rgba(0,0,0,0.8) !important;
+}
+
+/* Hide Tab bar with only one Tab - [110] */
+#tabbrowser-tabs .tabbrowser-tab:only-of-type,
+#tabbrowser-tabs .tabbrowser-tab:only-of-type + #tabbrowser-arrowscrollbox-periphery{
+  display:none !important;
+}
+#tabbrowser-tabs, #tabbrowser-arrowscrollbox {min-height:0!important;}
+/* #TabsToolbar:not(:hover) */ #alltabs-button {display:none !important;}

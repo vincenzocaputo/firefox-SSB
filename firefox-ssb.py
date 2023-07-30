@@ -2,8 +2,8 @@
 from pathlib import Path
 from configparser import ConfigParser, RawConfigParser
 from mozprofile import profile
-from pprinter import Pprinter
-from ssbmanager import SSBManager
+from loguru import logger
+from rich import print
 import os
 import sys
 import logging
@@ -11,21 +11,15 @@ import argparse
 import json
 import shutil
 import requests
+import pyfiglet
 
-logger = logging.getLogger()
-pprinter = Pprinter().getInstance()
+from ssbmanager import SSBManager
 
-banner = "\n"\
-"  __ _           __             ____ ____  ____  \n"\
-" / _(_)_ __ ___ / _| _____  __ / ___/ ___|| __ ) \n"\
-"| |_| | '__/ _ \ |_ / _ \ \/ / \___ \___ \|  _ \ \n"\
-"|  _| | | |  __/  _| (_) >  < _ ___) |__) | |_) |\n"\
-"|_| |_|_|  \___|_|  \___/_/\_(_)____/____/|____/ \n"
 
 if __name__ == '__main__':
-    pprinter.print_banner(166, banner)
+    banner = pyfiglet.figlet_format("Firefox-SSB", font="slant")
+    print(f"[dark_orange3]{banner}[/dark_orange3]")
     console = logging.StreamHandler()
-    logger.addHandler(console)
 
     app_name = None
     url = None
@@ -40,35 +34,43 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     action = args.action
+
+    logger.remove()
+    if args.debug:
+        log_level = "DEBUG"
+        logger.add(sys.stderr, level="DEBUG")
+    else:
+        log_level = "INFO"
+        logger.add(sys.stderr, format="<level>[{level}]</level> {message}", level="INFO")
+        logger.level("INFO", color="<blue>")
+    
     if action in ('install','uninstall','edit'):
         if args.name is None:
-            pprinter.error("You must specify a name for the application")
+            logger.error("You must specify a name for the application")
             parser.print_help()
             sys.exit()
         app_name = args.name.pop()
 
     if action in ('install','edit'):
         if args.url is None:
-            pprinter.error("You must specify a valid URL to the web application")
+            logger.error("You must specify a valid URL to the web application")
             parser.print_help()
             sys.exit()
         url = args.url.pop()
     
     if action in ('install','edit'):
         if args.icon is None:
-            pprinter.warning("You haven't provided a valid icon. We will try to find it")
+            logger.warning("You haven't provided a valid icon. We will try to find it")
             icon_path = None
         else:
             icon_path = args.icon
 
     if action in ('edit'):
         if url is None and icon is None:
-            pprinter.error("You must specify a new URL or a new icon. Aborting...")
+            logger.error("You must specify a new URL or a new icon. Aborting...")
             sys.exit()
 
-    if args.debug:
-        debug_level = logging.DEBUG
-        logger.setLevel(debug_level)
+         
 
     manager = SSBManager()
     

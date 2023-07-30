@@ -1,0 +1,15 @@
+config:
+  apps_path: "res/apps.json"
+  launchers_path: ".local/share/applications/"
+  profiles_path: ".mozilla/firefox/firefox-ssb/profiles"
+  icons_path: ".local/share/icons/firefox-ssb"
+
+default_settings:
+  browser.sessionstore.resume_from_crash: False
+  browser.cache.disk.enable: False
+  toolkit.legacyUserProfileCustomizations.stylesheets: True
+  browser.toolbars.bookmarks.visibility: "never"
+  browser.tabs.firefox-view: False
+  browser.tabs.inTitlebar: 0
+  browser.sessionstore.restore_on_demand: False
+  browser.sessionstore.restore_tabs_lazily: False
