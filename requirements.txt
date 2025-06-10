@@ -13,7 +13,7 @@ pyaml==23.7.0
 pyfiglet==0.8.post1
 Pygments==2.15.1
 PyYAML==6.0.1
-requests==2.31.0
+requests==2.32.4
 rich==13.5.0
 six==1.16.0
 urllib3==2.0.4
